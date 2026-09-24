@@ -31,9 +31,9 @@ function Brand({ compact = false }: { compact?: boolean }) {
 }
 
 const categories = [
-  { name: "Moda Masculina", subtitle: "Presença em cada escolha", className: "category--men", icon: "hanger" },
-  { name: "Moda Feminina", subtitle: "Elegância que acompanha você", className: "category--women", icon: "woman" },
-  { name: "Novidades", subtitle: "Novas formas de expressar seu estilo", className: "category--new", icon: "sparkle" },
+  { name: "Moda Masculina", subtitle: "Presença em cada escolha", className: "category--men", icon: "hanger", image: "/images/max-barros/moda-masculina.jpg" },
+  { name: "Moda Feminina", subtitle: "Elegância que acompanha você", className: "category--women", icon: "woman", image: "/images/max-barros/moda-feminina.jpg" },
+  { name: "Novidades", subtitle: "Novas formas de expressar seu estilo", className: "category--new", icon: "sparkle", image: "/images/max-barros/colecao.jpg" },
   { name: "Promoções", subtitle: "Seleções especiais da Max Barros", className: "category--sale", icon: "tag" },
 ];
 
@@ -64,6 +64,7 @@ function App() {
 
     <main>
       <section className="hero" id="inicio">
+        <img className="hero-image" src="/images/max-barros/hero-casal.jpg" alt="Casal vestindo looks elegantes da Max Barros" />
         <div className="hero-orbit hero-orbit--one"/><div className="hero-orbit hero-orbit--two"/>
         <div className="hero-copy-block">
           <p className="eyebrow">Moda para todos os seus momentos</p>
@@ -74,7 +75,6 @@ function App() {
             <a className="button button--line" href="#colecoes">Conheça nossas coleções <Icon name="arrow" /></a>
           </div>
         </div>
-        <div className="hero-brand" aria-hidden="true"><span className="hero-monogram">MB</span><p>MAX BARROS</p><small>MODA MASCULINA E FEMININA</small></div>
         <div className="scroll-cue"><span/> DESCUBRA</div>
       </section>
 
@@ -82,6 +82,7 @@ function App() {
         <header className="section-heading"><div><p className="eyebrow">Escolha sua versão</p><h2>Coleções para <em>vestir quem você é.</em></h2></div><p>Do essencial ao marcante, encontre peças para expressar seu estilo com confiança.</p></header>
         <div className="category-grid">
           {categories.map((category, index) => <article className={`category-card ${category.className}`} key={category.name}>
+            {category.image && <img className="category-image" src={category.image} alt="" />}
             <span className="card-number">0{index + 1}</span><div className="category-symbol"><Icon name={category.icon}/></div>
             <div><p>{category.subtitle}</p><h3>{category.name}</h3><a href={WHATSAPP_URL} target="_blank" rel="noreferrer" aria-label={`Consultar ${category.name} no WhatsApp`}>Consultar <Icon name="arrow" /></a></div>
           </article>)}
@@ -89,7 +90,7 @@ function App() {
       </section>
 
       <section className="about" id="sobre">
-        <div className="about-mark" aria-hidden="true"><span>MB</span></div>
+        <div className="about-mark"><img src="/images/max-barros/detalhes-identidade.jpg" alt="Casal com looks confortáveis e coordenados" /></div>
         <div className="about-content"><p className="eyebrow">A essência Max Barros</p><h2>Mais que moda,<br/><em>é atitude.</em></h2><p>Moda masculina e feminina para quem valoriza estilo, conforto e personalidade. Na Max Barros, cada peça é escolhida para acompanhar diferentes momentos e versões de você.</p><div className="signature">Qualidade <span>•</span> Estilo <span>•</span> Conforto</div></div>
       </section>
 
