@@ -1,0 +1,17 @@
+{
+  "type": "custom",
+  "agent": {
+    "id": "aurora",
+    "name": "Aurora",
+    "role": "Agente Landing Page"
+  },
+  "answers": {
+    "tipo": "custom",
+    "nome": "PROMPT_CEREJA_DO_BRONZE_LANDING_PAGE",
+    "contexto": "Use os arquivos anexados como briefing principal do projeto.",
+    "anexos": "PROMPT_CEREJA_DO_BRONZE_LANDING_PAGE.txt",
+    "creationMode": "fast",
+    "designPreset": "auto",
+    "agentId": "aurora"
+  }
+}
