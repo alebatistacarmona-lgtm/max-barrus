@@ -2,123 +2,118 @@ import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import "./styles.css";
 
-const WHATSAPP_URL = "https://wa.me/555191463881?text=Ol%C3%A1%21%20Vim%20pelo%20site%20da%20Cereja%20do%20Bronze%20e%20gostaria%20de%20saber%20mais%20sobre%20o%20bronzeamento%20e%20os%20hor%C3%A1rios%20dispon%C3%ADveis.";
-const INSTAGRAM_URL = "https://www.instagram.com/cerejadobronzepoa";
+const MESSAGE = "Olá! Vim pelo site da Max Barros e gostaria de conhecer as opções disponíveis.";
+const WHATSAPP_URL = `https://wa.me/554792457760?text=${encodeURIComponent(MESSAGE)}`;
+
+const icons: Record<string, React.ReactNode> = {
+  arrow: <><path d="M5 12h14M14 7l5 5-5 5" /></>,
+  hanger: <><path d="M12 8.5a2.5 2.5 0 1 0-2.5-2.5M12 8.5 3.5 14a2 2 0 0 0 1.1 3.7h14.8a2 2 0 0 0 1.1-3.7L12 8.5Z" /></>,
+  woman: <><circle cx="12" cy="7" r="4"/><path d="M12 11v10M8 15h8M9 21h6"/></>,
+  sparkle: <><path d="m12 2 1.5 5.1L18 10l-4.5 2.9L12 18l-1.5-5.1L6 10l4.5-2.9L12 2Z"/><path d="m19 16 .7 2.3L22 19l-2.3.7L19 22l-.7-2.3L16 19l2.3-.7L19 16Z"/></>,
+  tag: <><path d="M20 13 13 20l-9-9V4h7l9 9Z"/><circle cx="8" cy="8" r="1"/></>,
+  gem: <><path d="m3 9 4-5h10l4 5-9 11L3 9Z"/><path d="m7 4 5 16 5-16M3 9h18"/></>,
+  feather: <><path d="M20 4C11 4 5 9 5 17M4 20c4-5 8-8 14-12"/></>,
+  heart: <path d="M20.8 5.8a5.4 5.4 0 0 0-7.6 0L12 7l-1.2-1.2a5.4 5.4 0 0 0-7.6 7.6L12 22l8.8-8.6a5.4 5.4 0 0 0 0-7.6Z" />,
+  message: <><path d="M21 11.5a8 8 0 0 1-8.5 8 9 9 0 0 1-4-.9L3 21l1.5-4.5A8.5 8.5 0 1 1 21 11.5Z"/></>,
+  package: <><path d="m21 8-9 5-9-5 9-5 9 5Z"/><path d="m3 8 9 5 9-5v9l-9 5-9-5V8ZM12 13v9"/></>,
+};
+
+function Icon({ name }: { name: string }) {
+  return <svg className="icon" viewBox="0 0 24 24" aria-hidden="true">{icons[name]}</svg>;
+}
 
 function WhatsAppIcon() {
-  return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2a9.84 9.84 0 0 0-8.46 14.86L2.05 22l5.28-1.49A9.95 9.95 0 1 0 12.04 2Zm0 17.91a8 8 0 0 1-4.08-1.11l-.29-.17-3.13.89.9-3.05-.19-.31a7.86 7.86 0 1 1 6.79 3.75Zm4.36-5.9c-.24-.12-1.42-.69-1.64-.77-.22-.08-.38-.12-.54.12-.16.24-.62.77-.76.93-.14.16-.28.18-.52.06-.24-.12-1.01-.37-1.92-1.18-.71-.63-1.19-1.41-1.33-1.65-.14-.24-.01-.37.1-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.29-.74-1.77-.19-.47-.39-.4-.54-.41h-.46c-.16 0-.42.06-.64.3-.22.24-.84.81-.84 1.98 0 1.17.86 2.3.98 2.46.12.16 1.68 2.55 4.07 3.58.57.24 1.01.39 1.36.5.57.18 1.09.15 1.5.09.46-.07 1.42-.57 1.62-1.13.2-.55.2-1.03.14-1.13-.06-.1-.22-.16-.46-.28Z" /></svg>;
+  return <svg className="wa-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.4A10 10 0 1 0 12 2Zm0 18.1a8 8 0 0 1-4.1-1.1l-.3-.2-3 .9.8-3-.2-.3A8 8 0 1 1 12 20.1Zm4.4-6c-.2-.1-1.4-.7-1.6-.8-.2 0-.4 0-.5.2l-.8.9c-.1.2-.3.2-.5.1-1.4-.7-2.4-1.3-3.3-2.9-.2-.3.2-.5.6-1 .1-.2 0-.4 0-.5l-.7-1.8c-.2-.4-.4-.4-.6-.4h-.5c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 2 0 1.1.8 2.3 1 2.4.1.2 1.7 2.6 4 3.6 1.5.6 2 .7 2.8.6.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.2 0-.1-.2-.2-.4-.3Z"/></svg>;
 }
 
-function InstagramIcon() {
-  return <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.4" cy="6.7" r="1" className="fill-dot" /></svg>;
+function Brand({ compact = false }: { compact?: boolean }) {
+  return <span className={`brand ${compact ? "brand--compact" : ""}`}><span className="monogram"><span>MB</span></span><span className="brand-name">MAX BARROS<small>MODA MASCULINA E FEMININA</small></span></span>;
 }
+
+const categories = [
+  { name: "Moda Masculina", subtitle: "Presença em cada escolha", className: "category--men", icon: "hanger" },
+  { name: "Moda Feminina", subtitle: "Elegância que acompanha você", className: "category--women", icon: "woman" },
+  { name: "Novidades", subtitle: "Novas formas de expressar seu estilo", className: "category--new", icon: "sparkle" },
+  { name: "Promoções", subtitle: "Seleções especiais da Max Barros", className: "category--sale", icon: "tag" },
+];
 
 function App() {
+  const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    const onScroll = () => setScrolled(window.scrollY > 30);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  return (
-    <>
-      <header className={`site-header ${scrolled ? "site-header--scrolled" : ""}`}>
-        <a className="brand" href="#inicio" aria-label="Cereja do Bronze, início">
-          <img src="/assets/logo.png" alt="Cereja do Bronze" className="brand-logo" />
-        </a>
-        <a className="header-cta" href={WHATSAPP_URL} target="_blank" rel="noreferrer">Agendar</a>
-      </header>
+  const closeMenu = () => setMenuOpen(false);
 
-      <main>
-        <section className="hero" id="inicio" aria-labelledby="hero-title">
-          <div className="hero-bg-wrapper"><img src="/images/cereja/01-hero.jpeg" alt="Equipamento de bronzeamento..." />
-             <div className="hero-overlay"></div>
-          </div>
-          
-          <div className="hero-content">
-            <p className="eyebrow eyebrow--cherry"><span /> Cereja do Bronze</p>
-            <h1 id="hero-title">Seu bronze perfeito <em>começa aqui.</em></h1>
-            <p className="hero-copy">Bronzeamento artificial em Porto Alegre para quem deseja uma marquinha linda, resultado uniforme e aquela cor de verão sem precisar se expor ao sol.</p>
-            <div className="hero-actions">
-              <a className="button button--primary" href={WHATSAPP_URL} target="_blank" rel="noreferrer"><WhatsAppIcon /> Agendar meu bronze</a>
-              <a className="button button--ghost" href="#resultados">Ver resultados</a>
-            </div>
-          </div>
-        </section>
-
-        <section className="intro section" id="sobre" aria-labelledby="intro-title">
-          <p className="eyebrow"><span /> Nossa essência</p>
-          <h2 id="intro-title">Um espaço criado para <em>realçar sua beleza</em></h2>
-          <div className="art-detail"></div>
-          <div className="intro-copy">
-            <p>A Cereja do Bronze nasceu de um sonho e de uma vontade real de fazer acontecer. Depois de esperar o momento certo, novos caminhos se encontraram e esse sonho ganhou novas raízes.</p>
-            <p>Hoje, a Cereja floresce em Porto Alegre como um espaço pensado para proporcionar beleza, autoestima e uma experiência especial para cada cliente.</p>
-            <p>Cada detalhe foi criado com carinho, cuidado e dedicação para fazer você se sentir ainda mais linda.</p>
-          </div>
-        </section>
-
-        <section className="statement" id="destaque" aria-labelledby="statement-title">
-          <h2 id="statement-title">“Aquela cor de verão sem precisar se expor ao sol.”</h2>
-        </section>
-
-        <section className="results section" id="resultados">
-          <div className="results-header">
-             <p className="eyebrow eyebrow--cherry"><span /> Resultados Reais</p>
-             <h2>Sua marquinha linda</h2>
-          </div>
-          <div className="gallery-grid">
-             <div className="gallery-item">
-                <img src="/assets/resultado-1.jpg" alt="Resultado de marquinha de bronzeamento" />
-             </div>
-             <div className="gallery-item">
-                <img src="/assets/resultado-2.jpg" alt="Resultado de marquinha de bronzeamento" />
-             </div>
-             <div className="gallery-item">
-                <img src="/assets/resultado-3.jpg" alt="Resultado de marquinha de bronzeamento" />
-             </div>
-          </div>
-        </section>
-
-        <section className="section equipment" id="experiencia">
-           <div className="eq-image">
-              <img src="/assets/equipamento.jpg" alt="Nossa máquina de bronzeamento artificial" />
-           </div>
-           <div className="eq-content">
-              <p className="eyebrow"><span /> A Experiência</p>
-              <h2>Conforto e cuidado em <em>cada detalhe.</em></h2>
-              <p>Descubra uma forma prática de conquistar seu bronze com cuidado, conforto e um espaço pensado para você relaxar enquanto realça a sua beleza.</p>
-              <div className="feature-list">
-                 <div className="feature-item"><span>✓</span> Atendimento exclusivo focado no seu resultado.</div>
-                 <div className="feature-item"><span>✓</span> Resultados visíveis e cor uniforme.</div>
-                 <div className="feature-item"><span>✓</span> Ambiente acolhedor e totalmente feminino.</div>
-              </div>
-           </div>
-        </section>
-
-        <section className="final-cta" aria-labelledby="final-title">
-          <p className="eyebrow eyebrow--cherry"><span /> Agende o seu momento</p>
-          <h2 id="final-title">Sua marquinha dos sonhos está a uma mensagem de distância.</h2>
-          <a className="button button--primary" href={WHATSAPP_URL} target="_blank" rel="noreferrer"><WhatsAppIcon /> Agendar meu bronze</a>
-          <p style={{ marginTop: "8px", fontSize: "0.9rem", color: "var(--text-muted)" }}>📍 Porto Alegre, Rio Grande do Sul</p>
-        </section>
-      </main>
-
-      <footer>
-        <div className="brand" aria-label="Cereja do Bronze, início">
-          <img src="/assets/logo.png" alt="Cereja do Bronze" className="brand-logo" />
-        </div>
-        <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer">@cerejadobronzepoa</a>
-      </footer>
-
-      <nav className="floating-actions" aria-label="Redes sociais e agendamento">
-        <a className="float-instagram" href={INSTAGRAM_URL} target="_blank" rel="noreferrer" aria-label="Instagram da Cereja do Bronze"><InstagramIcon /></a>
-        <a className="float-whatsapp" href={WHATSAPP_URL} target="_blank" rel="noreferrer"><WhatsAppIcon /><span>Seu bronze aqui</span></a>
+  return <>
+    <header className={`site-header ${scrolled ? "site-header--scrolled" : ""}`}>
+      <a href="#inicio" aria-label="Max Barros — início"><Brand compact /></a>
+      <nav className={`main-nav ${menuOpen ? "main-nav--open" : ""}`} aria-label="Navegação principal">
+        <a href="#colecoes" onClick={closeMenu}>Coleções</a>
+        <a href="#sobre" onClick={closeMenu}>Sobre</a>
+        <a href="#experiencia" onClick={closeMenu}>Como comprar</a>
+        <a className="nav-cta" href={WHATSAPP_URL} target="_blank" rel="noreferrer"><WhatsAppIcon /> WhatsApp</a>
       </nav>
-    </>
-  );
+      <button className={`menu-toggle ${menuOpen ? "menu-toggle--open" : ""}`} onClick={() => setMenuOpen(!menuOpen)} aria-expanded={menuOpen} aria-label="Abrir menu"><span/><span/></button>
+    </header>
+
+    <main>
+      <section className="hero" id="inicio">
+        <div className="hero-orbit hero-orbit--one"/><div className="hero-orbit hero-orbit--two"/>
+        <div className="hero-copy-block">
+          <p className="eyebrow">Moda para todos os seus momentos</p>
+          <h1>Estilo em todas as<br/><em>versões de você.</em></h1>
+          <p className="hero-description">Moda masculina e feminina com escolhas que unem qualidade, conforto e personalidade.</p>
+          <div className="hero-actions">
+            <a className="button button--gold" href={WHATSAPP_URL} target="_blank" rel="noreferrer"><WhatsAppIcon /> Falar no WhatsApp</a>
+            <a className="button button--line" href="#colecoes">Conheça nossas coleções <Icon name="arrow" /></a>
+          </div>
+        </div>
+        <div className="hero-brand" aria-hidden="true"><span className="hero-monogram">MB</span><p>MAX BARROS</p><small>MODA MASCULINA E FEMININA</small></div>
+        <div className="scroll-cue"><span/> DESCUBRA</div>
+      </section>
+
+      <section className="section categories" id="colecoes">
+        <header className="section-heading"><div><p className="eyebrow">Escolha sua versão</p><h2>Coleções para <em>vestir quem você é.</em></h2></div><p>Do essencial ao marcante, encontre peças para expressar seu estilo com confiança.</p></header>
+        <div className="category-grid">
+          {categories.map((category, index) => <article className={`category-card ${category.className}`} key={category.name}>
+            <span className="card-number">0{index + 1}</span><div className="category-symbol"><Icon name={category.icon}/></div>
+            <div><p>{category.subtitle}</p><h3>{category.name}</h3><a href={WHATSAPP_URL} target="_blank" rel="noreferrer" aria-label={`Consultar ${category.name} no WhatsApp`}>Consultar <Icon name="arrow" /></a></div>
+          </article>)}
+        </div>
+      </section>
+
+      <section className="about" id="sobre">
+        <div className="about-mark" aria-hidden="true"><span>MB</span></div>
+        <div className="about-content"><p className="eyebrow">A essência Max Barros</p><h2>Mais que moda,<br/><em>é atitude.</em></h2><p>Moda masculina e feminina para quem valoriza estilo, conforto e personalidade. Na Max Barros, cada peça é escolhida para acompanhar diferentes momentos e versões de você.</p><div className="signature">Qualidade <span>•</span> Estilo <span>•</span> Conforto</div></div>
+      </section>
+
+      <section className="section highlights" id="destaques">
+        <div className="section-heading centered"><div><p className="eyebrow">Por que escolher a Max Barros</p><h2>Detalhes que fazem <em>a diferença.</em></h2></div></div>
+        <div className="highlights-grid">
+          {[['hanger','Moda Masculina','Escolhas versáteis para uma presença marcante.'],['woman','Moda Feminina','Elegância e personalidade em cada composição.'],['sparkle','Novidades','Novas possibilidades para renovar seu estilo.'],['gem','Qualidade','Peças selecionadas com atenção aos detalhes.'],['feather','Conforto','Bem-estar para acompanhar todos os momentos.'],['heart','Estilo','Moda para expressar cada versão de você.']].map(([icon,title,text]) => <article className="highlight" key={title}><span><Icon name={icon}/></span><h3>{title}</h3><p>{text}</p></article>)}
+        </div>
+      </section>
+
+      <section className="experience" id="experiencia">
+        <div className="experience-intro"><p className="eyebrow">Simples, próximo e seguro</p><h2>Seu novo look,<br/><em>em poucos passos.</em></h2><p>Converse diretamente com a gente para conhecer as opções e finalizar sua compra.</p><a className="text-link" href={WHATSAPP_URL} target="_blank" rel="noreferrer">Começar agora <Icon name="arrow"/></a></div>
+        <div className="steps">
+          {[['01','hanger','Escolha seu estilo','Explore nossas coleções.'],['02','message','Fale conosco','Conte o que você procura.'],['03','heart','Finalize pelo WhatsApp','Combine os detalhes da compra.'],['04','package','Receba seu pedido','Aguarde seu novo look.']].map(([number,icon,title,text]) => <article className="step" key={number}><span className="step-number">{number}</span><span className="step-icon"><Icon name={icon}/></span><div><h3>{title}</h3><p>{text}</p></div></article>)}
+        </div>
+      </section>
+
+      <section className="final-cta"><div className="cta-monogram" aria-hidden="true">MB</div><p className="eyebrow">Uma nova versão espera por você</p><h2>Seu próximo look<br/><em>começa aqui.</em></h2><p>Descubra peças que combinam com seu momento, seu estilo e sua personalidade.</p><a className="button button--gold" href={WHATSAPP_URL} target="_blank" rel="noreferrer"><WhatsAppIcon/> Comprar pelo WhatsApp</a></section>
+    </main>
+
+    <footer><div className="footer-top"><Brand/><p>Moda masculina e feminina para todas as versões de você.</p><div className="footer-social"><a href={WHATSAPP_URL} target="_blank" rel="noreferrer"><WhatsAppIcon/> WhatsApp</a><button type="button" disabled aria-label="Instagram em breve"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg> Instagram <small>em breve</small></button></div></div><div className="footer-bottom"><span>© {new Date().getFullYear()} Max Barros</span><span>Loja online • Moda Masculina e Feminina</span></div></footer>
+
+    <a className="floating-whatsapp" href={WHATSAPP_URL} target="_blank" rel="noreferrer" aria-label="Falar com a Max Barros pelo WhatsApp"><WhatsAppIcon/><span>Fale com a gente</span></a>
+  </>;
 }
 
 createRoot(document.getElementById("root")!).render(<React.StrictMode><App /></React.StrictMode>);
