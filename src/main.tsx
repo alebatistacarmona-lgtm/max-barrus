@@ -3,7 +3,8 @@ import { createRoot } from "react-dom/client";
 import "./styles.css";
 
 const MESSAGE = "Olá! Vim pelo site da Max Barros e gostaria de conhecer as opções disponíveis.";
-const WHATSAPP_URL = `https://wa.me/554792457760?text=${encodeURIComponent(MESSAGE)}`;
+const WHATSAPP_NUMBER = "554792457760";
+const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(MESSAGE)}`;
 
 const icons: Record<string, React.ReactNode> = {
   arrow: <><path d="M5 12h14M14 7l5 5-5 5" /></>,
@@ -30,12 +31,15 @@ function Brand({ compact = false }: { compact?: boolean }) {
   return <span className={`brand ${compact ? "brand--compact" : ""}`}><span className="monogram"><span>MB</span></span><span className="brand-name">MAX BARROS<small>MODA MASCULINA E FEMININA</small></span></span>;
 }
 
-const categories = [
-  { name: "Moda Masculina", subtitle: "Presença em cada escolha", className: "category--men", icon: "hanger", image: "/images/max-barros/moda-masculina.jpg" },
-  { name: "Moda Feminina", subtitle: "Elegância que acompanha você", className: "category--women", icon: "woman", image: "/images/max-barros/moda-feminina.jpg" },
-  { name: "Novidades", subtitle: "Novas formas de expressar seu estilo", className: "category--new", icon: "sparkle", image: "/images/max-barros/colecao.jpg" },
-  { name: "Promoções", subtitle: "Seleções especiais da Max Barros", className: "category--sale", icon: "tag" },
-];
+const looks = [1, 2, 3, 4, 5, 9, 10, 12, 13, 17, 19, 20].map((number) => ({
+  id: `R${number}`,
+  image: `/r${number}.jpeg`,
+}));
+
+function lookWhatsAppUrl(id: string) {
+  const message = `Olá! Gostaria de saber mais sobre o Look ${id} da MAX BARROS.`;
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+}
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -79,12 +83,19 @@ function App() {
       </section>
 
       <section className="section categories" id="colecoes">
-        <header className="section-heading"><div><p className="eyebrow">Escolha sua versão</p><h2>Coleções para <em>vestir quem você é.</em></h2></div><p>Do essencial ao marcante, encontre peças para expressar seu estilo com confiança.</p></header>
-        <div className="category-grid">
-          {categories.map((category, index) => <article className={`category-card ${category.className}`} key={category.name}>
-            {category.image && <img className="category-image" src={category.image} alt="" />}
-            <span className="card-number">0{index + 1}</span><div className="category-symbol"><Icon name={category.icon}/></div>
-            <div><p>{category.subtitle}</p><h3>{category.name}</h3><a href={WHATSAPP_URL} target="_blank" rel="noreferrer" aria-label={`Consultar ${category.name} no WhatsApp`}>Consultar <Icon name="arrow" /></a></div>
+        <header className="section-heading showcase-heading"><div><p className="eyebrow">Seleção MAX BARROS</p><h2>Estilo em <em>cada detalhe</em></h2></div><p>Peças selecionadas para diferentes estilos, momentos e versões de você.</p></header>
+        <div className="look-list">
+          {looks.map((look, index) => <article className="look-card" key={look.id}>
+            <div className="look-visual">
+              <img src={look.image} alt={`Look ${look.id} da MAX BARROS`} loading="lazy" />
+              <span className="look-index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+            </div>
+            <div className="look-content">
+              <p className="look-kicker">Estilo MAX BARROS</p>
+              <h3>Look {look.id}</h3>
+              <p className="look-availability">Disponível sob consulta</p>
+              <a className="button button--gold look-button" href={lookWhatsAppUrl(look.id)} target="_blank" rel="noreferrer" aria-label={`Consultar o Look ${look.id} no WhatsApp`}><WhatsAppIcon /> Consultar no WhatsApp</a>
+            </div>
           </article>)}
         </div>
       </section>
